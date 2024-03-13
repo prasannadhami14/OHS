@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+<!-- ================================
+         END HEADER AREA
+================================= -->
+<!-- ================================
+    START CARD AREA
+================================= -->
+{% block content %}
+{%load static%}
+<section class="card-area section--padding "style="padding-top: 52px;">
+    <div class="container">
+        <div class="row ">
+            <div class="col-lg-12">
+                <div class="filter-wrap margin-bottom-30px">
+                    <div class="filter-top d-flex align-items-center justify-content-center pb-4">
+                        <div>
+                            <h2 class="title font-size-24 text-center "> Hotels </h2>
+                            <p class="font-size-14 text-capitalize"><span class="mr-1 pt-1">Book with confidence:</span>No hotel booking fees</p>
+                        </div>
+                      
+                    </div><!-- end filter-top -->
+                    <div class="filter-bar d-flex align-items-center justify-content-between">
+                        <div class="filter-bar-filter d-flex flex-wrap align-items-center">
+                            <div class="filter-option">
+                                <h3 class="title font-size-16">Filter by Location:</h3>
+                            </div>
+                            
+                            <div class="filter-option">
+                                <div class="dropdown dropdown-contain">
+                                   
+                                    <div class="dashboard-search-box b">
+                                        <div class="contact-form-action">
+                                            <form action="{% url 'hotels:filter_location'%}" method="POST">
+                                                {%csrf_token%}
+                                                <div class="form-group mb-0 border border-dark">
+                                                    <input class="form-control font-size-14" type="text" name="location" placeholder="Enter location.....">
+                                                    <button class="search-btn" type="submit"><i class="la la-search"></i></button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                   
+                                </div><!-- end dropdown -->
+                            </div>
+                            
+                        </div><!-- end filter-bar-filter -->
+                       
+                    </div><!-- end filter-bar -->
+                </div><!-- end filter-wrap -->
+            </div><!-- end col-lg-12 -->
+        </div><!-- end row -->
+        
+    {% if messages%}
+    {% for message in messages %}
+
+    <div class="alert alert-
+    {% if message.tags %} 
+    {{ message.tags }} 
+    {% endif %} alert-dismissible fade show text-center" role="alert">  
+    <span class="text-capitalize ">{{message}}</span>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    {%endfor%}
+    {%endif%}
+        <div class="row">
+            {%for hotels in hotels%}
+            <div class="col-lg-4 responsive-column">
+                <div class="card-item">
+                    <div class="card-img">
+                        <a href="{% url 'hotels:hotel_rooms' hotel_id=hotels.id  %}" class="d-block">
+                            <img src="{{hotels.image.url}}" alt="hotel-img">
+                        </a>
+                       
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title text-capitalize"><a href="{% url 'hotels:hotel_rooms' hotel_id=hotels.id  %}">{{hotels.name}}</a></h3>
+                        <p class="card-meta text-capitalize">{{hotels.city}},{{hotels.state}},{{hotels.country}}</p>
+                        <div class="card-rating">
+                            <span class="badge text-white">4.4/5</span>
+                            <span class="review__text">Average</span>
+                            <span class="rating__text">({{user_counts}} Reviews)</span>
+                        </div>
+                        <div class="card-price d-flex align-items-center justify-content-between">
+                            <p>
+                                <span class="price__from">From</span>
+                                <span class="price__num">Rs.{{hotels.price_range}}</span>
+                                <span class="price__text">Per night</span>
+                            </p>
+                            <a href="{% url 'hotels:hotel_rooms' hotel_id=hotels.id  %}" class="btn-text">See details<i class="la la-angle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+            {%empty%}
+            <span class="text-center text-capitalize">No hotels available!!!!!!</span>
+            {%endfor%}
+            
+        
+
+        </div>
+        
+    </div><!-- end container -->
+</section><!-- end card-area -->
+<!-- ================================
+    END CARD AREA
+================================= -->
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+<script src="https://cdn.jsdelivr.net/npm/leaflet-geosearch@3.0.0/dist/geosearch.min.js"></script>
+<link rel="stylesheet" href="{% static 'css/leaflet.css' %}"/>
+<script src="{% static 'js/leaflet.js' %}"></script>
+<link rel="stylesheet" href="{% static 'css/leaflet-search.css' %}"/>
+<script src="{% static 'js/leaflet-search.js' %}"></script>
+<div class="d-flex align-items-center justify-content-center ml-4 mr-4" >
+<div id="map" style="width: 100%; height: 500px;"></div>
+</div>
+
+<script>
+    var map = L.map('map').setView([27.7172, 85.3241], 13);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+    var searchControl = new L.Control.GeoSearch({
+        provider: new L.GeoSearch.OpenStreetMapProvider(),
+        style: 'bar',
+        showMarker: true,
+        marker: {
+            draggable: true,
+            icon: new L.Icon.Default()
+        },
+        autoClose: true,
+        searchLabel: 'Search for location'
+    }).addTo(map);
+
+    {% for hotel in hotelsLoc %}
+        L.marker([{{ hotel.latitude }}.{{ hotel.longitude }}]).addTo(map)
+                .bindPopup("<b>{{ hotel.name }}</b><br>{{ hotel.address }}<br>Price: ${{ hotel.price_per_night }}<br>Amenities: {{ hotel.amenities }}");
+    {% endfor %}
+</script>
+{% endblock content %}
+

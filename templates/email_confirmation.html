@@ -1,0 +1,6 @@
+{% autoescape off%}
+welcome to Hotel Apps!
+Hello {{name}}!
+Please confirm your email by clicking on the link below.
+Confirmation Link:http://{{domain}}{% url 'users:activate' uidb64=uid token=token %}
+{% endautoescape %}

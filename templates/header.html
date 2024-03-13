@@ -1,0 +1,119 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="author" content="APPS">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>APPS - Online Hotel Reservation</title>
+
+    <!-- Google Fonts -->
+    <link rel="stylesheet" href="https://cdn.lineawesome.com/1.3.0/line-awesome/la-solid-9.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&amp;display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'css/leaflet.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/leaflet-search.css' %}" />
+
+    <link rel="stylesheet" href="{% static 'css/leaflet-routing-machine.css' %}" />
+    <!-- for google mp -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+        integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+        crossorigin="" />
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-geosearch@3.0.0/dist/geosearch.min.css" />
+
+    <!--  -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+    <!-- Template CSS Files -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap-select.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/line-awesome.css'%}">
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css'%}">
+    <link rel="stylesheet" href="{% static 'css/owl.theme.default.min.css'%}">
+    <link rel="stylesheet" href="{% static 'css/jquery.fancybox.min.css'%}">
+    <link rel="stylesheet" href="{% static 'css/daterangepicker.css'%}">
+    <link rel="stylesheet" href="{% static 'css/animate.min.css'%}">
+    <link rel="stylesheet" href="{% static 'css/animated-headline.css'%}">
+    <link rel="stylesheet" href="{% static 'css/jquery-ui.css'%}">
+    <link rel="stylesheet" href="{% static 'css/flag-icon.min.css '%}">
+    <link rel="stylesheet" href="{% static 'css/style.css'%}">
+    <script src="https://kit.fontawesome.com/66a3027f37.js" crossorigin="anonymous"></script>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Bootstrap JS -->
+</head>
+
+<body>
+    <!-- start cssload-loader -->
+    <div class="preloader" id="preloader">
+        <div class="loader">
+            <svg class="spinner" viewBox="0 0 50 50">
+                <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
+            </svg>
+        </div>
+    </div>
+    <!-- end cssload-loader -->
+
+    <!-- ================================
+            START HEADER AREA
+================================= -->
+    <header class="header-area">
+        <div class="header-top-bar padding-right-100px padding-left-100px">
+            <div class="container-fluid">
+                <div class="row align-items-center">
+                    <div class="col-lg-6">
+                        <div class="header-top-content">
+                            <div class="header-left">
+                                <ul class="list-items">
+                                    <li><a href="#"><i class="la la-phone mr-1"></i>023-541089</a></li>
+                                    <li><a href="https://www.gmail.com"><i
+                                                class="la la-envelope mr-1"></i>info.apps@gmail.com</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="header-top-content">
+                            <div class="header-right d-flex align-items-center justify-content-end">
+
+                                <div class="header-right-action">
+                                    {% if user.is_authenticated%}
+                                    <a href="{% url 'users:logout'%}" class="theme-btn theme-btn-small">Logout</a>
+                                    {% else %}
+                                    <a href="{% url 'users:register'%}"
+                                        class="theme-btn theme-btn-small theme-btn-transparent mr-1">Sign Up</a>
+                                    <a href="{% url 'users:login'%}" class="theme-btn theme-btn-small">Login</a>
+                                    {% endif %}
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="header-menu-wrapper padding-right-100px padding-left-100px bg-dark">
+            <div class="container-fluid">
+                <div class="row">
+                          
+                    <div class="col-lg-12">
+                        <div class="menu-wrapper">
+                            <a href="#" class="down-button"><i class="la la-angle-down"></i></a>
+                            <div class="logo">
+                                <a href="{% url 'hotels:index'%}"><img src="{% static 'images/logo3.png'%}" height="125px" width="150px" style="border-radius: 50px;" alt="logo"></a>
+
+                            </div><!-- end logo -->
+
+                        </div>
+                    </div><!-- end menu-wrapper -->
+                </div><!-- end col-lg-12 -->
+            </div><!-- end row -->
+        </div><!-- end container-fluid -->
+        </div><!-- end header-menu-wrapper -->
+    </header>
+    

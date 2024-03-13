@@ -1,0 +1,128 @@
+{% extends "base.html"%}
+{% block content%}
+{%load static%}
+{%if error%}
+<div class="alert alert-warning alert-dismissible fade show text-center" role="alert">  
+    <span class="text-capitalize">{{error}}</span>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    {%endif%}
+<div id="availability" class="page-scroll ">
+    <div class="single-content-item padding-top-40px padding-bottom-30px">
+        <h3 class="title font-size-25 padding-left-40px">Reservation Details</h3>
+        <div class="contact-form-action padding-bottom-35px padding-top-40px padding-left-40px">
+            <form 
+            {% if error is None %} 
+            action="{%url 'reserve:mail_reservation'%}"  
+            {%else %} 
+            action="#"
+            {%endif %}
+            method="post">
+                {%csrf_token%}
+                <div class="row">
+                    <div class="col-lg-6 responsive-column">
+                        <div class="input-box">
+                            <label class="label-text">Name</label>
+                            <div class="form-group">
+                                <div class="select-contain w-auto">
+                                    <input type="text" class="form-control text-capitalize" name="name" readonly value="{{user_name}}" required/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 responsive-column">
+                        <div class="input-box">
+                            <label class="label-text">Email</label>
+                            <div class="form-group">
+                                <div class="select-contain w-auto">
+                                    <input type="email" class="form-control" name="email" value="{{email}}" readonly required />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 responsive-column">
+                        <div class="input-box">
+                            <label class="label-text">Phone</label>
+                            <div class="form-group">
+                                <div class="select-contain w-auto">
+                                    <input type="tel" class="form-control" name="phone" placeholder=" Enter phone eg.(+977 9842724655)" required />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 responsive-column">
+                        <div class="input-box">
+                            <label class="label-text">Check in - Check out</label>
+                            <div class="form-group">
+                                <span class="la la-calendar form-icon"></span>
+                                <input class="date-range form-control" type="text" name="daterange">
+                            </div>
+                        </div>
+                    </div>
+             
+                    <div class="col-lg-6 responsive-column">
+                        <div class="input-box">
+                            <label class="label-text">Rooms</label>
+                            <div class="form-group">
+                                <div class="select-contain w-auto">
+                                    <input type="text" class="form-control" name="room_no"  value={{room_number}} readonly>                             
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 responsive-column">
+                        <div class="input-box">
+                            <label class="label-text">Adults(18+)</label>
+                            <div class="form-group">
+                                <div class="select-contain w-auto">
+                                    <select class="select-contain-select" name="adult_count">
+                                        <option value="None">Select Adults</option>
+                                        <option value="1">1 Adults</option>
+                                        <option value="2">2 Adults</option> 
+                                        <option value="3">3 Adults</option>
+                                        <option value="4">4 Adults</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 responsive-column">
+                        <div class="input-box">
+                            <label class="label-text">Children (0-17)</label>
+                            <div class="form-group">
+                                <div class="select-contain w-auto">
+                                    <select class="select-contain-select" name="child_count">
+                                        <option value="None">Select Children</option>
+                                        <option value="1">1 Children</option>
+                                        <option value="2">2 Children</option>
+                                        <option value="3">3 Children</option>
+                                        <option value="4">4 Children</option>
+                                      
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 responsive-column">
+                        <div class="input-box">
+                            <label class="label-text"> Price per night</label>
+                            <div class="form-group">
+                                <div class="select-contain w-auto">
+                                    <input type="text" class="form-control" name="price"  value="{{room_price}}" readonly >
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="btn-box d-flex justify-content-center align-items-center">
+                            <button type="submit" class="theme-btn text-center w-50" >Reserve Now</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!-- Modal -->
+
+        {%endblock%}
